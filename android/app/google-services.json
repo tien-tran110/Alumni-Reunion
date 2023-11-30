@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663719435573",
+    "project_id": "reunion-85acb",
+    "storage_bucket": "reunion-85acb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663719435573:android:66319238d5c606270a407c",
+        "android_client_info": {
+          "package_name": "com.example.gtk_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUiROnLa_JfPihW6etcdWhqUSXAdE0PBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
