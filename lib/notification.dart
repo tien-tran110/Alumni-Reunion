@@ -42,6 +42,10 @@ class NotificationService {
       String? body,
       String? payLoad,
       required DateTime scheduledNotificationDateTime}) async {
+    if (scheduledNotificationDateTime.isBefore(DateTime.now())) {
+      throw ArgumentError(
+          'scheduledNotificationDateTime must be a future date');
+    }
     return notificationsPlugin.zonedSchedule(
         id,
         title,

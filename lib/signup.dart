@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gtk_flutter/home_page.dart';
+import 'package:gtk_flutter/home.dart';
 import 'package:gtk_flutter/login.dart';
 import 'package:gtk_flutter/src/widgets.dart';
 
@@ -12,6 +12,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController displayNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -24,8 +25,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
           email: emailController.text,
           password: passwordController.text,
         );
+        // Get the current user
+        User? user = FirebaseAuth.instance.currentUser;
+
+        // Set the display name for the user
+        await user?.updateDisplayName(displayNameController.text);
+
+        // Reload the user to apply the changes
+        await user?.reload();
+        user = FirebaseAuth.instance.currentUser;
+
+        print(
+            'User signed up successfully. Display Name: ${user?.displayName}');
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomePage()));
+            context, MaterialPageRoute(builder: (context) => Home()));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -35,6 +48,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     } on FirebaseAuthException catch (e) {
       print(e);
+      String errorMessage = e.message ?? 'An error occurred';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+        ),
+      );
     }
   }
 
@@ -47,13 +66,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              SizedBox(height: 40),
+              SizedBox(height: 30),
               //logo
               Icon(
                 Icons.lock,
-                size: 100,
+                size: 90,
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 30),
 
               //welcome text
               Text('Get Started with Reunion',
@@ -63,6 +82,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   )),
 
               SizedBox(height: 25),
+              //display name textfield
+              MyTextField(
+                controller: displayNameController,
+                hintText: 'Username',
+                obscureText: false,
+              ),
+              SizedBox(height: 10),
               //username textfield
               MyTextField(
                 controller: emailController,
@@ -83,23 +109,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 hintText: 'Confirm Password',
                 obscureText: true,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
 
-              //forgot password
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey,
-                        )),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10),
               //sign in button
               MyButton(
                 onTap: SignUserUp,
@@ -147,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     child: Image.asset(
                       'assets/images/google.png',
-                      height: 60,
+                      height: 45,
                     ),
                   ),
                 ],

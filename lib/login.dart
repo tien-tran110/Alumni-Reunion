@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gtk_flutter/forgot_password.dart';
 import 'package:gtk_flutter/services/auth_service.dart';
 import 'package:gtk_flutter/signup.dart';
 import 'package:gtk_flutter/src/widgets.dart';
@@ -21,10 +22,12 @@ class _LoginScreenState extends State<LoginScreen> {
         email: emailController.text,
         password: passwordController.text,
       );
-    } on FirebaseAuthException catch (e) {
+    } catch (e) {
+      print(e);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Invalid email or password. Please try again.'),
+          content: Text('INVALID CREDENTIALS'),
         ),
       );
     }
@@ -71,16 +74,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
               //forgot password
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey,
-                        )),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgotPassword()));
+                      },
+                      child: Text('Forgot Password?',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                          )),
+                    ),
                   ],
                 ),
               ),

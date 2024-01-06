@@ -62,8 +62,72 @@ class StyledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => OutlinedButton(
         style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.deepPurple)),
+            side: const BorderSide(color: Colors.deepOrange)),
         onPressed: onPressed,
         child: child,
       );
+}
+
+class MyTextField extends StatelessWidget {
+  final controller;
+  final String hintText;
+  final bool obscureText;
+
+  const MyTextField(
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.obscureText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 25),
+      child: TextField(
+        controller: controller,
+        obscureText: obscureText,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Color.fromARGB(255, 189, 184, 184)),
+          ),
+          fillColor: Color.fromARGB(255, 248, 247, 247),
+          filled: true,
+          hintText: hintText,
+        ),
+      ),
+    );
+  }
+}
+
+class MyButton extends StatelessWidget {
+  final Function()? onTap;
+
+  final String buttonText;
+
+  const MyButton({Key? key, required this.onTap, required this.buttonText})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(25),
+          margin: const EdgeInsets.symmetric(horizontal: 25),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.black,
+          ),
+          child: Center(
+            child: Text(buttonText,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                )),
+          ),
+        ));
+  }
 }
